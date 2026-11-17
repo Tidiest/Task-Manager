@@ -42,37 +42,39 @@ if(choice==='y')
     
 }
 
-// const deleteQuestion = await rl.question("Czy chcesz usunąć kurs? (t/n): ");
-// if (deleteQuestion === 't') {
-//     const deleteId = await rl.question("Podaj ID kursu do usunięcia: ");
-//     const idToDelete = parseInt(deleteId);
-//     const courseToDelete = getCourseById(db, idToDelete);
-//     if (courseToDelete) {
-//         deleteCourse(db, idToDelete);
-//         console.log("Kurs usunięty!");
-//     } else {
-//         console.log("Kurs nie znaleziony.");
-//     }
-// }
-// const updateQuestion = await rl.question("Czy chcesz zaktualizować kurs? (t/n): ");
-// if (updateQuestion === 't') {
-//     const updateId = await rl.question("Podaj ID kursu do aktualizacji: ");
-//     const idToUpdate = parseInt(updateId);
-//     const courseToUpdate = getCourseById(db, idToUpdate);
-//     if (courseToUpdate) {
-//         const newTitle = (  await rl.question("Podaj nową nazwę kursu: ")) || courseToUpdate.title;
-//         const newPrice = parseFloat(await rl.question("Podaj nową cenę kursu: ")) || courseToUpdate.price;
-//         const newDate = await rl.question("Podaj nową datę kursu: YYYY-MM-DD ")|| courseToUpdate.date_start;
-//         const updatedCourse: Course = {
-//             id: idToUpdate,
-//             title: newTitle,
-//             price: newPrice,
-//             date_start: newDate
-//         };
-//         updateCourse(db, updatedCourse);
-//         console.log("Kurs zaktualizowany!");
-//     } else {
-//         console.log("Kurs nie znaleziony.");
-//     }
-// }
+const deleteQuestion = await rl.question("Do you want to delete a task? (y/n): ");
+if (deleteQuestion === 'y') {
+    const deleteId = await rl.question("Enter task id to delete: ");
+    const idToDelete = parseInt(deleteId);
+    const taskToDelete = getTaskById(db, idToDelete);
+    if (taskToDelete) {
+        deleteTask(db, idToDelete);
+        console.log("Task deleted.");
+    } else {
+        console.log("Task not found.");
+    }
+}
+
+const updateQuestion = await rl.question("Do you want to update a task? (y/n): ");
+if (updateQuestion === 'y') {
+    const updateId = await rl.question("Enter task id tp update: ");
+    const idToUpdate = parseInt(updateId);
+    const taskToUpdate = getTaskById(db, idToUpdate);
+    if (taskToUpdate) {
+        const newTitle = (  await rl.question("Enter new task title: ")) || taskToUpdate.title;
+        const newDesc = (await rl.question("Enter new task description: ")) || taskToUpdate.description;
+        const newCompleted = parseInt(await rl.question("Enter task completed status: "))|| taskToUpdate.completed;
+        const updatedCourse: Task = {
+            id: idToUpdate,
+            title: newTitle,
+            description: newDesc,
+            completed: newCompleted,
+            created_at: taskToUpdate.created_at
+        };
+        updateTask(db, updatedCourse);
+        console.log("Task updated");
+    } else {
+        console.log("Task not found.");
+    }
+}
 rl.close();
