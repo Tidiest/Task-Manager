@@ -1,11 +1,11 @@
-import Database from "better-sqlite3"
+import Database from "better-sqlite3";
 
 export interface Task
 {
     id:number,
     title:string,
     description:string | null,
-    completed:boolean,
+    completed:number,
     created_at: string
 }
 
@@ -31,14 +31,14 @@ export function getTaskById(db:Database.Database, id:number): Task | undefined
 
 export function insertTask(db:Database.Database, newTask:Task)
 {
-    const stmt = db.prepare("INSERT INTO Tasks (title, description, completed, created_at) VALUES (?, ?, ?, ?)");
-    const result = stmt.run(newTask.title, newTask.description, newTask.completed, newTask.created_at);
+    const stmt = db.prepare("INSERT INTO Tasks (title, description, completed) VALUES (?, ?, ?)");
+    const result = stmt.run(newTask.title, newTask.description, newTask.completed);
 }
 
 export function updateTask(db:Database.Database, updatedTask:Task)
 {
-    const stmt = db.prepare("UPDATE Tasks SET title = ?, description = ?, completed = ?, created_at = ? WHERE id = ?");
-    stmt.run(updatedTask.title, updatedTask.description, updatedTask.completed, updatedTask.created_at, updatedTask.id);
+    const stmt = db.prepare("UPDATE Tasks SET title = ?, description = ?, completed = ? WHERE id = ?");
+    stmt.run(updatedTask.title, updatedTask.description, updatedTask.completed, updatedTask.id);
 }
 
 export function deleteTask(db:Database.Database, id:number)
